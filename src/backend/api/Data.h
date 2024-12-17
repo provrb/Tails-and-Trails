@@ -17,10 +17,8 @@ public: // Functions to use in Python
         For example, 'path' = "Pets.MyDog". Save 'jsonData' in Pets with a key value of MyDog.
     */
     bool SaveJSONValueAtPath(_IN_ const std::string& path, _IN_ std::string& jsonData);
-                             
     std::string              GetUserData();                             // Return user data json as a string. Make sure to convert to arbituary json type
     std::string              GetValueFromPath(_IN_ std::string path);   // get value stored in key using period seperated path of key
-    std::string              GetJSONUserData();                         // Read the json user data and put it in a string
 private: // Functions to use in C++
     std::vector<std::string> JSONKeysFromPath(_IN_ const std::string& path); // Get keys for values from a seperated period path
     JSON                     ReadUserData();                            // read user data path into a json

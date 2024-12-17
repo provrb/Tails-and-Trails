@@ -97,10 +97,6 @@ std::string DataManagement::GetValueFromPath(_IN_ std::string path) {
     return "";
 }
 
-std::string DataManagement::GetJSONUserData() {
-    return ReadUserData().dump();
-}
-
 JSON DataManagement::ReadUserData() {
     try {
         JSON parsed;

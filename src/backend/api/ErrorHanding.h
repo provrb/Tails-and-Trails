@@ -31,10 +31,10 @@ namespace {
     static ErrorCode m_LastError = ErrorCode::kNoError; // Last error set by a c++ runtime function
 }
 
-class Exception {
+class BackendExceptions {
 public:
-    Exception() = delete;
-    ~Exception() = delete;
+    BackendExceptions() = delete;
+    ~BackendExceptions() = delete;
 
     static void             SetLastError(_IN_ ErrorCode code);
     static inline ErrorCode GetLastError() { return ::m_LastError; }

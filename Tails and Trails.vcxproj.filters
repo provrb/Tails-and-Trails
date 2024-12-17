@@ -27,15 +27,24 @@
     <ClInclude Include="src\backend\ext\json_fwd.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\backend\api\ErrorHanding.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\backend\api\Macros.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\backend\src\Data.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\backend\src\main.cpp">
+    <ClCompile Include="src\backend\src\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\backend\src\PyInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\backend\src\ErrorHanding.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

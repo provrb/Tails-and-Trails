@@ -100,14 +100,19 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>C:\Users\ethan\Desktop\Tails and Trails\src\backend\ext\pybind11\include;C:\Users\ethan\Desktop\Tails and Trails\src\backend\ext;C:\Users\ethan\Desktop\Tails and Trails\src\backend\api;C:\Users\ethan\AppData\Local\Programs\Python\Python313\include;$(IncludePath)</IncludePath>
+    <IntDir>\.intermediate\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Deploy|x64'">
     <IncludePath>C:\Users\ethan\Desktop\Tails and Trails\src\backend\ext\pybind11\include;C:\Users\ethan\Desktop\Tails and Trails\src\backend\ext;C:\Users\ethan\Desktop\Tails and Trails\src\backend\api;C:\Users\ethan\AppData\Local\Programs\Python\Python313\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Users\ethan\AppData\Local\Programs\Python\Python313\libs;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)\deploy\</OutDir>
+    <IntDir>\.intermediate\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>C:\Users\ethan\Desktop\Tails and Trails\src\backend\ext\pybind11\include;C:\Users\ethan\Desktop\Tails and Trails\src\backend\ext;C:\Users\ethan\Desktop\Tails and Trails\src\backend\api;C:\Users\ethan\AppData\Local\Programs\Python\Python313\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Users\ethan\AppData\Local\Programs\Python\Python313\libs;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)\out\test\</OutDir>
+    <IntDir>\.intermediate\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -202,13 +207,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\backend\api\Data.h" />
+    <ClInclude Include="src\backend\api\ErrorHanding.h" />
+    <ClInclude Include="src\backend\api\Macros.h" />
     <ClInclude Include="src\backend\api\PyInterface.h" />
     <ClInclude Include="src\backend\ext\json.hpp" />
     <ClInclude Include="src\backend\ext\json_fwd.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\backend\src\ErrorHanding.cpp" />
     <ClCompile Include="src\backend\src\Data.cpp" />
-    <ClCompile Include="src\backend\src\main.cpp" />
+    <ClCompile Include="src\backend\src\Main.cpp" />
     <ClCompile Include="src\backend\src\PyInterface.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
