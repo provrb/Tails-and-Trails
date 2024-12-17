@@ -4,19 +4,14 @@
 #include <filesystem>
 
 DataManagement::DataManagement() {
-    this->m_File.open(this->m_UserDataPath, std::fstream::out | std::fstream::in);
-    this->ReadUserData();
-}
-
-void DataManagement::WriteToFile(JSON json) {
-    this->m_File << std::setw(4) << json << std::endl;
-}
-
-void DataManagement::WriteToFile(std::string data) {
-
+    if ( !std::filesystem::exists(this->m_UserDataPath) )
+        this->m_File.open(this->m_UserDataPath, std::fstream::out | std::fstream::app);
+    else
+        this->m_File.open(this->m_UserDataPath, std::fstream::out | std::fstream::in);
 }
 
 DataManagement::~DataManagement() {
+    this->m_File.close();
 }
 
 std::string DataManagement::GetUserData() {
@@ -29,81 +24,103 @@ std::string DataManagement::GetUserData() {
     return output;
 }
 
-bool DataManagement::AppendValue(std::string key, std::string value) {
-    JSON data = ReadUserData();
+std::vector<std::string> DataManagement::JSONKeysFromPath(_IN_ const std::string& path) {
+    std::istringstream pathStream(path);
+    std::string segment;
+    std::vector<std::string> keys;
 
+    while ( std::getline(pathStream, segment, '.') )
+        keys.push_back(segment);
+
+    return keys;
 }
 
-bool DataManagement::SaveKeyValue(std::string parentKey, std::unordered_map<std::string, std::string> keyValues) {
+bool DataManagement::SaveJSONValueAtPath(_IN_ const std::string& path, _IN_ std::string& jsonData) {
     JSON data = ReadUserData();
-    std::cout << "Saving key" << std::endl;
 
-    if (!parentKey.empty()) {
-        if (!data.contains(parentKey)) {
-            data[parentKey] = JSON::object();
-        }
+    try {
+        JSON newJson = JSON::parse(jsonData);
+        std::vector<std::string> keys = JSONKeysFromPath(path);
+        JSON* currentLevel = &data;
 
-        if (data[parentKey].is_object()) {
-            for (auto& [key, value] : keyValues) {
-                if (data[parentKey].contains(key)) {
-                    if (data[parentKey][key].is_array()) {
-                        data[parentKey][key].push_back(value);
-                    } else {
-                        JSON converted = { data[parentKey][key], value };
-                        data[parentKey][key] = converted;
-                    }
-                } else {
-                    data[parentKey][key] = value;
+        for ( size_t i = 0; i < keys.size(); ++i ) {
+            const std::string& key = keys[i];
+
+            if ( i < keys.size() - 1 ) {
+                if ( !currentLevel->contains(key) ) {
+                    ( *currentLevel )[key] = JSON::object();
                 }
+                currentLevel = &( *currentLevel )[key];
             }
-        } else {
-            return false;
+            else
+                ( *currentLevel )[key] = newJson;
         }
-    } else {
-        for (auto& [key, value] : keyValues) {
-            if (data.contains(key)) {
-                if (data[key].is_array()) {
-                    data[key].push_back(value);
-                } else {
-                    JSON converted = { data[key], value };
-                    data[key] = converted;
+
+        SaveJSONDataToFile(data);
+    }
+    catch ( const std::exception& e ) {
+        std::cerr << "Error parsing JSON string: " << e.what() << std::endl;
+        return false;
+    }
+
+    return true;
+}
+
+std::string DataManagement::GetValueFromPath(_IN_ std::string path) {
+    std::vector<std::string> keys = JSONKeysFromPath(path);
+    JSON data = ReadUserData();
+
+    try {
+        JSON* scope = &data;
+        for ( size_t i = 0; i < keys.size(); ++i ) {
+            std::string key = keys[i];
+            std::cout << i << " " << key << std::endl;
+
+            if ( scope->contains(key) ) {
+                if ( i == keys.size() - 1 ) {
+                    std::cout << "Found value: " << ( *scope )[key] << std::endl;
+                    return ( *scope )[key].dump();
                 }
-            } else {
-                data[key] = value;
+                scope = &( *scope )[key];
+            }
+            else {
+                std::cout << "Key '" << key << "' not found." << std::endl;
+                return ""; 
             }
         }
     }
+    catch ( const std::exception& err ) {
+        std::cerr << "Exception: " << err.what() << std::endl;
+        return "";
+    }
 
-    return SaveJSONDataToFile(data);
+    return "";
 }
 
-
-bool DataManagement::SaveArrayInKey(std::string key, std::vector<std::string> value) {
-
-}
-
-std::string DataManagement::GetValueFromKey(std::string key) {
-
-}
-
-std::vector<std::string> DataManagement::GetArrayFromKey(std::string key) {
-
+std::string DataManagement::GetJSONUserData() {
+    return ReadUserData().dump();
 }
 
 JSON DataManagement::ReadUserData() {
-    JSON parsed;
-    if ( std::filesystem::file_size(this->m_UserDataPath) <= 0)
-        return parsed; // empty
+    try {
+        JSON parsed;
+        std::stringstream buffer;
+        buffer << this->m_File.rdbuf();
+        parsed = JSON::parse(buffer.str());
 
-    this->m_File >> parsed;
-    return parsed;
+        return parsed;
+    }
+    catch ( std::exception& err ) {
+        return JSON::object();
+    }
 }
 
-bool DataManagement::SaveJSONDataToFile(JSON toSave) {
-    // open for writing
-    int oldFileSize = std::filesystem::file_size(this->m_UserDataPath);
-    WriteToFile(toSave);
-    int newFileSIze = std::filesystem::file_size(this->m_UserDataPath);
+bool DataManagement::SaveJSONDataToFile(_IN_ JSON toSave) {
+    
+    std::ofstream temp(this->m_UserDataPath, std::ofstream::in);
+    temp.seekp(0, std::ios::beg);
+    temp << toSave.dump(4) << std::endl;;
+    temp.flush();
 
-    return ( newFileSIze > oldFileSize );
+    return true;
 }
