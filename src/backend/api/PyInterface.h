@@ -1,4 +1,4 @@
-#include <python3.12/Python.h>
+#include <Python.h>
 #include <iostream>
 #include <unordered_map>
 

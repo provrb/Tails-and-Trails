@@ -1,19 +1,21 @@
-#include "../api/PyInterface.h"
-#include "../api/Data.h"
+#include "PyInterface.h"
+#include "Data.h"
 
 #include <iostream>
 
 int main() {
+    std::cout << "Creating data" << std::endl;
+
     DataManagement data;
-    std::unordered_map<std::string, std::string> dogDetails = {
-        {"Breed", "d"},
-        {"Weight", "40"}
-    };
-    
+
+    std::string dogDetails = "{\"Breed\": \"German Shepard\", \"Age\": 13}";
+
     std::cout << "Created data management class" << std::endl;
 
-    // Save the "Dog" under the "Pets" key
-    data.SaveKeyValue("Pets", dogDetails);
+    //data.SaveKeyValue("Pets.Pet1", dogDetails);
+    //data.SaveKeyValue("Pets.Rocky", dogDetails);
+    std::string p = "Dogs.Dog1.d";
+    data.GetValueFromPath(p);
 
     return 0;
 }
