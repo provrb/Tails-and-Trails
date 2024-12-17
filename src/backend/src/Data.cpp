@@ -24,7 +24,7 @@ std::string DataManagement::GetUserData() {
     return output;
 }
 
-std::vector<std::string> DataManagement::JSONKeysFromPath(const std::string& path) {
+std::vector<std::string> DataManagement::JSONKeysFromPath(_IN_ const std::string& path) {
     std::istringstream pathStream(path);
     std::string segment;
     std::vector<std::string> keys;
@@ -35,7 +35,7 @@ std::vector<std::string> DataManagement::JSONKeysFromPath(const std::string& pat
     return keys;
 }
 
-bool DataManagement::SaveKeyValue(const std::string& path, std::string& jsonData) {
+bool DataManagement::SaveJSONValueAtPath(_IN_ const std::string& path, _IN_ std::string& jsonData) {
     JSON data = ReadUserData();
 
     try {
@@ -66,7 +66,7 @@ bool DataManagement::SaveKeyValue(const std::string& path, std::string& jsonData
     return true;
 }
 
-std::string DataManagement::GetValueFromPath(std::string path) {
+std::string DataManagement::GetValueFromPath(_IN_ std::string path) {
     std::vector<std::string> keys = JSONKeysFromPath(path);
     JSON data = ReadUserData();
 
@@ -97,7 +97,6 @@ std::string DataManagement::GetValueFromPath(std::string path) {
     return "";
 }
 
-
 std::string DataManagement::GetJSONUserData() {
     return ReadUserData().dump();
 }
@@ -116,7 +115,7 @@ JSON DataManagement::ReadUserData() {
     }
 }
 
-bool DataManagement::SaveJSONDataToFile(JSON toSave) {
+bool DataManagement::SaveJSONDataToFile(_IN_ JSON toSave) {
     
     std::ofstream temp(this->m_UserDataPath, std::ofstream::in);
     temp.seekp(0, std::ios::beg);

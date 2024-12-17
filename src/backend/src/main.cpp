@@ -1,21 +1,21 @@
-#include "PyInterface.h"
-#include "Data.h"
-
+#include <pybind11/pybind11.h>
 #include <iostream>
 
-int main() {
-    std::cout << "Creating data" << std::endl;
+#ifdef DEPLOY
 
-    DataManagement data;
+// when building dll
 
-    std::string dogDetails = "{\"Breed\": \"German Shepard\", \"Age\": 13}";
-
-    std::cout << "Created data management class" << std::endl;
-
-    //data.SaveKeyValue("Pets.Pet1", dogDetails);
-    //data.SaveKeyValue("Pets.Rocky", dogDetails);
-    std::string p = "Dogs.Dog1.d";
-    data.GetValueFromPath(p);
-
-    return 0;
+PYBIND11_MODULE(my_module, m) {
+    // link modules for python
 }
+
+#elif defined(TEST)
+
+// when i need a console to print
+// easier to debug and run
+
+int main() {
+    
+}
+
+#endif
