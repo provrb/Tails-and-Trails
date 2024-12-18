@@ -1,7 +1,16 @@
 import backend
 import json
 
-data = backend.DataManagement() # C++ data management class
+# READ ME
+
+# As of the most recent push, using DataManagement class
+# directory is INCREDIBLY discourage. You should use the
+# respect class for the type of data you are dealing with.
+
+# For example, if you are adding pets to the user save file,
+# Use the respective 'Pets' class instead.
+
+data = backend.DataManagement("./user_data.json") # C++ data management class
 
 # Details on some exported methods
 print(help(data.GetUserData))

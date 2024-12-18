@@ -11,7 +11,8 @@ PYBIND11_MODULE(backend, modHandle) {
     // link modules for python
 
     py::class_<DataManagement> dataClass = PythonInterface::ExposeCPPClass<DataManagement>(modHandle, "DataManagement");
-    dataClass.def(py::init()); // class constructor
+    
+    dataClass.def(py::init<std::string&>()); // class constructor where you specify file path for data to save
 
     dataClass.def(
         "GetUserData", 

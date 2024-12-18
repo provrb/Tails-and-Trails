@@ -3,11 +3,13 @@
 #include <iostream>
 #include <filesystem>
 
-DataManagement::DataManagement() {
-    if ( !std::filesystem::exists(this->m_UserDataPath) )
-        this->m_File.open(this->m_UserDataPath, std::fstream::out | std::fstream::app);
+DataManagement::DataManagement(std::string& path)
+{
+    m_DataFilePath = path;
+    if ( !std::filesystem::exists(this->m_DataFilePath) )
+        this->m_File.open(this->m_DataFilePath, std::fstream::out | std::fstream::app);
     else
-        this->m_File.open(this->m_UserDataPath, std::fstream::out | std::fstream::in);
+        this->m_File.open(this->m_DataFilePath, std::fstream::out | std::fstream::in);
 }
 
 DataManagement::~DataManagement() {
@@ -91,12 +93,12 @@ std::string DataManagement::GetValueFromPath(_IN_ std::string path) {
     return "";
 }
 
-bool DataManagement::SetUserDataPath(std::string path)
+bool DataManagement::SetUserDataPath(_IN_ std::string path)
 {
     if ( !std::filesystem::exists(path) )
         return false;
 
-    this->m_UserDataPath = path.c_str();
+    this->m_DataFilePath = path;
 
     return true;
 }
@@ -105,7 +107,7 @@ JSON DataManagement::ReadUserData() {
     try {
         JSON parsed;
 
-        std::ifstream temp(this->m_UserDataPath);
+        std::ifstream temp(this->m_DataFilePath);
         std::stringstream buffer;
         buffer << temp.rdbuf();
         parsed = JSON::parse(buffer.str());
@@ -118,7 +120,7 @@ JSON DataManagement::ReadUserData() {
 }
 
 bool DataManagement::SaveJSONDataToFile(_IN_ JSON toSave) {
-    std::ofstream temp(this->m_UserDataPath, std::ofstream::in);
+    std::ofstream temp(this->m_DataFilePath, std::ofstream::in);
     temp.seekp(0, std::ios::beg);
     temp << toSave.dump(4) << std::endl;;
     temp.flush();

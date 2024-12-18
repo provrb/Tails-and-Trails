@@ -1,6 +1,5 @@
 #include "ErrorHanding.h"
 
-
 #include <unordered_map>
 
 std::unordered_map<ErrorCode, ErrorInfo> ErrorCodeDescription = {
