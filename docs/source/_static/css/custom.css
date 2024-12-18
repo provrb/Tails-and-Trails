@@ -1,0 +1,7 @@
+/* Use Google Fonts Roboto Slab */
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&display=swap');
+
+/* Apply Roboto Slab to the body */
+body {
+    font-family: 'Roboto Slab', serif;
+}
