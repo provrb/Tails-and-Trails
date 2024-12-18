@@ -1,6 +1,7 @@
 #include <pybind11/pybind11.h>
 #include <PyInterface.h>
 #include <Data.h>
+#include <Pets.h>
 
 // when building dll
 #ifdef DEPLOY
@@ -43,13 +44,7 @@ PYBIND11_MODULE(backend, modHandle) {
 // easier to debug and run
 
 int main() {
-    std::string jsonDataToSave = "{ \"Breed\": \"German Shepard\", \"Age\" : 15  }";
-    std::string pathToSave = "Pets.Joe";
 
-    DataManagement data;
-    data.SaveJSONValueAtPath(pathToSave, jsonDataToSave);
-
-    std::cout << data.GetUserData();
 }
 
 #endif

@@ -3,17 +3,18 @@
 #include <iostream>
 #include <filesystem>
 
-DataManagement::DataManagement(std::string& path)
+DataManagement::DataManagement(std::string path)
 {
+    std::cout << "Setting current working path to " << path << std::endl;
     m_DataFilePath = path;
-    if ( !std::filesystem::exists(this->m_DataFilePath) )
-        this->m_File.open(this->m_DataFilePath, std::fstream::out | std::fstream::app);
-    else
-        this->m_File.open(this->m_DataFilePath, std::fstream::out | std::fstream::in);
-}
-
-DataManagement::~DataManagement() {
-    this->m_File.close();
+    if ( !std::filesystem::exists(this->m_DataFilePath) ) {
+        std::fstream temp(m_DataFilePath, std::fstream::out | std::fstream::app);
+        std::cout << "Doesn't exist. Creating" << std::endl;
+    }
+    else {
+        std::fstream temp(m_DataFilePath, std::fstream::out | std::fstream::in);
+        std::cout << "Opened" << std::endl;
+    }
 }
 
 std::string DataManagement::GetUserData() {
@@ -62,6 +63,8 @@ bool DataManagement::SaveJSONValueAtPath(_IN_ const std::string& path, _IN_ std:
     return true;
 }
 
+
+
 std::string DataManagement::GetValueFromPath(_IN_ std::string path) {
     std::vector<std::string> keys = JSONKeysFromPath(path);
     JSON data = ReadUserData();
@@ -101,6 +104,29 @@ bool DataManagement::SetUserDataPath(_IN_ std::string path)
     this->m_DataFilePath = path;
 
     return true;
+}
+
+bool DataManagement::DoesJSONPathExist(_IN_ std::string path)
+{
+    JSON data = ReadUserData();
+    std::vector<std::string> keys = JSONKeysFromPath(path);
+    try {
+        JSON* scope = &data;
+        for ( size_t i = 0; i < keys.size(); ++i ) {
+            std::string key = keys[i];
+            std::cout << i << " " << key << std::endl;
+
+            if ( scope->contains(key) )
+                return true;
+            else
+                return false;
+        }
+    }
+    catch ( const std::exception& err ) {
+        return false;
+    }
+
+    return false;
 }
 
 JSON DataManagement::ReadUserData() {

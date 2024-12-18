@@ -8,6 +8,9 @@ enum class ErrorCode {
     kJSONParsingError   = 0x10,
     kUserDataCorrupt    = 0x40,
     kJSONKeyDoesntExist = 0x60,
+    kFailedSavingData   = 0x10,
+    kPetAlreadyExists   = 0x932,
+    kPetDoesNotExist    = 0x302 // just make sure you call AddPet and not EditPet and you wont get this
 };
 
 enum class ErrorSeverity {
