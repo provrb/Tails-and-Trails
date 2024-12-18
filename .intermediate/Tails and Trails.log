@@ -1,0 +1,10 @@
+﻿  ErrorHanding.cpp
+  Data.cpp
+  Main.cpp
+  PyInterface.cpp
+C:\Users\ethan\Desktop\Tails and Trails\src\backend\src\Data.cpp(113,29): warning C4101: 'err': unreferenced local variable
+  Generating code
+  Previous IPDB not found, fall back to full compilation.
+  All 425 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  Tails and Trails.vcxproj -> C:\Users\ethan\Desktop\Tails and Trails\out\Tails and Trails.exe
