@@ -36,5 +36,5 @@ public:
 
     ErrorCode   RemovePet(_IN_ std::string& name);
     inline void OutputPetFile() { std::cout << ReadUserData().dump(4) << std::endl; }
-    std::unordered_map<std::string, PetDescription> GetSavedPets();
+    std::unordered_map<std::string, std::string> GetSavedPets();
 };

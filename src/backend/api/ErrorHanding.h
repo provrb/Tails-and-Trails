@@ -10,10 +10,11 @@ enum class ErrorCode {
     kJSONKeyDoesntExist = 0x60,
     kFailedSavingData   = 0x10,
     kPetAlreadyExists   = 0x932,
-    kPetDoesNotExist    = 0x302 // just make sure you call AddPet and not EditPet and you wont get this
+    kPetDoesNotExist    = 0x302, // just make sure you call AddPet and not EditPet and you wont get this
+    kPetIndexNotFound   = 0x125
 };
 
-enum class ErrorSeverity {
+enum class ErrorpetInfoSeverity {
     kLow,
     kMedium,
     kHigh,

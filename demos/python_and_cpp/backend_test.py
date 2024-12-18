@@ -4,8 +4,8 @@ import json
 # READ ME
 
 # As of the most recent push, using DataManagement class
-# directory is INCREDIBLY discourage. You should use the
-# respect class for the type of data you are dealing with.
+# directory is INCREDIBLY discouraged. You should use the
+# respective class for the type of data you are dealing with.
 
 # For example, if you are adding pets to the user save file,
 # Use the respective 'Pets' class instead.

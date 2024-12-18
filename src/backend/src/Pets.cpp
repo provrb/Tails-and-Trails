@@ -64,7 +64,22 @@ ErrorCode PetInterface::RemovePet(_IN_ std::string& name)
     return (!saved) ? ErrorCode::kFailedSavingData : ErrorCode::kNoError;
 }
 
-std::unordered_map<std::string, PetDescription> PetInterface::GetSavedPets()
+std::unordered_map<std::string, std::string> PetInterface::GetSavedPets()
 {
-    return std::unordered_map<std::string, PetDescription>();
+    JSON data = ReadUserData();
+    if ( !data.contains("Pets") ) {
+        BackendExceptions::SetLastError(ErrorCode::kPetIndexNotFound);
+        return {};
+    }
+        
+    JSON petInfo = data["Pets"];
+    std::unordered_map<std::string, std::string> savedPets;
+    for ( auto& pair : petInfo.items()) {
+        if ( !pair.value().is_array() || savedPets.find(pair.key()) == savedPets.end() )
+            continue; // not valid pet
+    
+        savedPets[pair.key()] = pair.value().dump();
+    }
+
+    return savedPets;
 }
