@@ -14,9 +14,9 @@ struct PetDescription {
     uint32_t    heightIn; // height in inches
 };
 
-class Pets : private DataManagement {
+class PetInterface : private DataManagement {
 public:
-    Pets() : DataManagement("pets.json")
+    PetInterface() : DataManagement("pets.json")
     {
     };
 
@@ -34,8 +34,7 @@ public:
         _IN_ _OPTIONAL_ std::string breed = "default"
     );
 
-    ErrorCode RemovePet(_IN_ std::string& name);
+    ErrorCode   RemovePet(_IN_ std::string& name);
     inline void OutputPetFile() { std::cout << ReadUserData().dump(4) << std::endl; }
-
     std::unordered_map<std::string, PetDescription> GetSavedPets();
 };

@@ -1,6 +1,6 @@
 #include "Pets.h"
 
-ErrorCode Pets::AddPet(_IN_ uint32_t weight, _IN_ uint32_t heightIN, _IN_ std::string& name, _IN_ std::string& breed)
+ErrorCode PetInterface::AddPet(_IN_ uint32_t weight, _IN_ uint32_t heightIN, _IN_ std::string& name, _IN_ std::string& breed)
 {
     std::string petsPath = "Pets." + name;
     
@@ -20,7 +20,7 @@ ErrorCode Pets::AddPet(_IN_ uint32_t weight, _IN_ uint32_t heightIN, _IN_ std::s
     return (!saved) ? ErrorCode::kFailedSavingData : ErrorCode::kNoError;
 }
 
-ErrorCode Pets::EditPet(_IN_ std::string& name, _IN_ _OPTIONAL_ uint32_t weight, _IN_ _OPTIONAL_ uint32_t heightIn, _IN_ _OPTIONAL_ std::string breed)
+ErrorCode PetInterface::EditPet(_IN_ std::string& name, _IN_ _OPTIONAL_ uint32_t weight, _IN_ _OPTIONAL_ uint32_t heightIn, _IN_ _OPTIONAL_ std::string breed)
 {
     std::string petsPath = "Pets." + name;
     if ( !DoesJSONPathExist(petsPath) ) {
@@ -44,7 +44,7 @@ ErrorCode Pets::EditPet(_IN_ std::string& name, _IN_ _OPTIONAL_ uint32_t weight,
     return (!saved) ? ErrorCode::kFailedSavingData : ErrorCode::kNoError;
 }
 
-ErrorCode Pets::RemovePet(_IN_ std::string& name)
+ErrorCode PetInterface::RemovePet(_IN_ std::string& name)
 {
     std::string petsPath = "Pets." + name;
     if ( !DoesJSONPathExist(petsPath) )
@@ -64,7 +64,7 @@ ErrorCode Pets::RemovePet(_IN_ std::string& name)
     return (!saved) ? ErrorCode::kFailedSavingData : ErrorCode::kNoError;
 }
 
-std::unordered_map<std::string, PetDescription> Pets::GetSavedPets()
+std::unordered_map<std::string, PetDescription> PetInterface::GetSavedPets()
 {
     return std::unordered_map<std::string, PetDescription>();
 }
