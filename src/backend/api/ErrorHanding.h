@@ -14,7 +14,8 @@ enum class ErrorCode {
     kPetIndexNotFound   = 0x125
 };
 
-enum class ErrorpetInfoSeverity {
+// Reserved for future use
+enum class ErrorSeverity {
     kLow,
     kMedium,
     kHigh,
