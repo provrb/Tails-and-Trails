@@ -2,20 +2,36 @@
 #include <PyInterface.h>
 #include <Data.h>
 
-#ifdef DEPLOY
-
 // when building dll
+#ifdef DEPLOY
 
 namespace py = pybind11;
 
 PYBIND11_MODULE(backend, modHandle) {
-
     // link modules for python
-    auto dataClass = PythonInterface::ExposeCPPClass<DataManagement>(modHandle, "DataManagement");
+
+    py::class_<DataManagement> dataClass = PythonInterface::ExposeCPPClass<DataManagement>(modHandle, "DataManagement");
     dataClass.def(py::init()); // class constructor
-    dataClass.def("GetUserData", &DataManagement::GetUserData);
-    dataClass.def("SaveJSONValueAtPath", &DataManagement::SaveJSONValueAtPath, py::arg("Path"), py::arg("JSONData"));
-    dataClass.def("GetValueFromPath", &DataManagement::GetValueFromPath, py::arg("Path"));
+
+    dataClass.def(
+        "GetUserData", 
+        &DataManagement::GetUserData,
+        "Read the JSON user data file. Returns a string version of the JSON data."
+    );
+
+    dataClass.def(
+        "SaveJSONValueAtPath",
+        &DataManagement::SaveJSONValueAtPath,
+        "Save 'JSONData' under JSON keys specified in 'Path' separated by periods, inside the user data JSON file.",
+        py::arg("Path"), py::arg("JSONData")
+    );
+
+    dataClass.def(
+        "GetValueFromPath",
+        &DataManagement::GetValueFromPath,
+        "Get a JSON value from JSON keys specified in 'Path' that are period separated.",
+        py::arg("Path")
+    );
 }
 
 #elif defined(TEST)
@@ -26,7 +42,13 @@ PYBIND11_MODULE(backend, modHandle) {
 // easier to debug and run
 
 int main() {
-    
+    std::string jsonDataToSave = "{ \"Breed\": \"German Shepard\", \"Age\" : 15  }";
+    std::string pathToSave = "Pets.Joe";
+
+    DataManagement data;
+    data.SaveJSONValueAtPath(pathToSave, jsonDataToSave);
+
+    std::cout << data.GetUserData();
 }
 
 #endif

@@ -1,0 +1,12 @@
+{
+    "Pets": {
+        "Ethan": {
+            "Age": 15,
+            "Breed": "German Shepard"
+        },
+        "Joe": {
+            "Age": 15,
+            "Breed": "German Shepard"
+        }
+    }
+}

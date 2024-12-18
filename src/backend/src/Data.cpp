@@ -15,13 +15,7 @@ DataManagement::~DataManagement() {
 }
 
 std::string DataManagement::GetUserData() {
-    // read file and put it into a string
-    std::string output;
-    std::stringstream contents;
-    contents << this->m_File.rdbuf();
-
-    output = std::move(contents.str());
-    return output;
+    return ReadUserData().dump();
 }
 
 std::vector<std::string> DataManagement::JSONKeysFromPath(_IN_ const std::string& path) {
@@ -97,11 +91,23 @@ std::string DataManagement::GetValueFromPath(_IN_ std::string path) {
     return "";
 }
 
+bool DataManagement::SetUserDataPath(std::string path)
+{
+    if ( !std::filesystem::exists(path) )
+        return false;
+
+    this->m_UserDataPath = path.c_str();
+
+    return true;
+}
+
 JSON DataManagement::ReadUserData() {
     try {
         JSON parsed;
+
+        std::ifstream temp(this->m_UserDataPath);
         std::stringstream buffer;
-        buffer << this->m_File.rdbuf();
+        buffer << temp.rdbuf();
         parsed = JSON::parse(buffer.str());
 
         return parsed;
@@ -112,11 +118,11 @@ JSON DataManagement::ReadUserData() {
 }
 
 bool DataManagement::SaveJSONDataToFile(_IN_ JSON toSave) {
-    
     std::ofstream temp(this->m_UserDataPath, std::ofstream::in);
     temp.seekp(0, std::ios::beg);
     temp << toSave.dump(4) << std::endl;;
     temp.flush();
+    temp.close();
 
     return true;
 }
