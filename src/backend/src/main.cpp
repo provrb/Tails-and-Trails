@@ -11,6 +11,7 @@ namespace py = pybind11;
 PYBIND11_MODULE(backend, modHandle) {
     // link modules for python
 
+    // Data interface functions
     py::class_<DataManagement> dataClass = PythonInterface::ExposeCPPClass<DataManagement>(modHandle, "DataManagement");
     dataClass.def(py::init<std::string&>()); // class constructor where you specify file path for data to save
     dataClass.def(
@@ -31,6 +32,7 @@ PYBIND11_MODULE(backend, modHandle) {
         py::arg("Path")
     );
 
+    // pet interface functions
     py::class_<PetInterface> petClass = PythonInterface::ExposeCPPClass<PetInterface>(modHandle, "PetInterface");
     petClass.def(
         "AddPet",
@@ -50,6 +52,12 @@ PYBIND11_MODULE(backend, modHandle) {
         "Remove a pet from the list of saved pets by name.",
         py::arg("Name")
     );
+    petClass.def(
+        "GetSavedPets",
+        &PetInterface::GetSavedPets,
+        "Get a map of saved pets with the pet name as the key and pet info as the value."
+    );
+
 }
 
 #elif defined(TEST)
