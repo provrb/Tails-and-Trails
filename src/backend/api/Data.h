@@ -27,7 +27,6 @@ protected:
     JSON                     ReadUserData();                            // read user data path into a json
     bool                     SaveJSONDataToFile(_IN_ JSON toSave);      // Save JSON data to user data file 
     std::vector<std::string> JSONKeysFromPath(_IN_ const std::string& path); // Get keys for values from a seperated period path
-
 private:
     std::string              m_DataFilePath;
 };

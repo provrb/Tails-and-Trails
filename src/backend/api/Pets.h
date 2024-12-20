@@ -34,6 +34,8 @@ public:
         _IN_ _OPTIONAL_ std::string breed = "default"
     );
 
+    int GetPetBMI();
+
     ErrorCode   RemovePet(_IN_ std::string& name);
     inline void OutputPetFile() { std::cout << ReadUserData().dump(4) << std::endl; }
     std::unordered_map<std::string, std::string> GetSavedPets();
